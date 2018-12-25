@@ -5,12 +5,15 @@
   "main": "index.js",
   "dependencies": {
     "dotenv": "^6.2.0",
+    "dotenv-webpack": "^1.5.7",
     "express": "^4.16.4",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^7.0.2",
+    "prop-types": "^15.6.2",
     "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
-    "webpack": "^4.28.2",
-    "webpack-node-externals": "^1.7.2"
+    "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
     "eslint": "^5.11.0",
@@ -18,13 +21,12 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "nodemon": "^1.18.9",
-    "webpack-cli": "^3.1.2"
+    "nodemon": "^1.18.9"
   },
   "scripts": {
-    "build": "webpack",
-    "start": "node index.js",
-    "start-dev": "nodemon index.js",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
     "test": "npm test"
   },
   "author": "",
