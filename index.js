@@ -3,9 +3,11 @@ const express = require('express');
 const request = require('request-promise-native');
 
 const app = express();
-const port = 3000;
+app.use(express.static('public'));
 
-app.get('/', async (req, res) => {
+const port = 3000 || process.env.PORT;
+
+app.get('/api/words', async (req, res) => {
   const options = {
     uri: 'https://wordsapiv1.p.mashape.com/words/',
     qs: { random: true },
