@@ -12,7 +12,7 @@ class Index extends React.Component {
   }
 
   static async getWord(partOfSpeech) {
-    const url = 'https://wordsapiv1.p.mashape.com/words/?random=true';
+    const url = 'https://wordsapiv1.p.mashape.com/words/?random=true&frequencyMin=3';
     const opts = {
       headers: { 'X-RapidAPI-Key': process.env.RAPID_API_KEY },
     };
