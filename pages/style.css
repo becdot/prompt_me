@@ -23,11 +23,11 @@ h5 {
     padding-top: 23px;
   }
 }
-.word-container {
+.words-container {
   display: block;
 }
 
-.word-list {
+.words-list {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -35,13 +35,13 @@ h5 {
 }
 
 @media (max-width: 767px) {
-  .word-list {
+  .words-list {
     padding-left: 7px;
     padding-right: 7px;
   }
 }
 @media (max-width: 479px) {
-  .word-list {
+  .words-list {
     flex-direction: column;
     justify-content: center;
     word-wrap: break-word;
@@ -69,4 +69,8 @@ h5 {
     padding: 15px 7px;
     text-align: center;
   }
+}
+
+.word-definition {
+  padding: 10px 0;
 }

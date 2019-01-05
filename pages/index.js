@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import fetch from 'isomorphic-unfetch';
 
 import Head from '../components/head';
+import WordAccordion from '../components/word_accordion';
 
 import './style.css';
 
@@ -38,8 +39,8 @@ class Index extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     const { words } = this.props;
+    const { activeWord } = this.state;
     return (
       <React.Fragment>
         <Head />
@@ -48,32 +49,30 @@ class Index extends React.Component {
           <h5>a writing prompt generator</h5>
         </div>
         <div>
-          <div className="word-container">
-            <div className="word-list">
-              {words.map(({ word }, i) => (
-                <div
-                  key={word}
-                  className="word"
-                  onMouseLeave={() => this.setState({ activeWord: null })}
-                  onMouseEnter={() => this.setState({ activeWord: i })}
-                >
-                  {`${word}.`}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="definition-container">
-            <div className="word-definition-container">
+          <div className="words-container">
+            <div className="words-list">
               {words.map(({ word, definitions }, i) => (
-                <div
-                  key={`${word}-definition-container}`}
-                  className={`word-definition-container ${this.state.activeWord === i ? 'active' : 'hidden'}`}
-                >
-                  {definitions.map(definition => (
-                    <div key={definition} className="word-definition">
-                      {`${definition}.`}
-                    </div>
-                  ))}
+                <div key={`${word}-word-container`} className="word-container">
+                  <div
+                    key={word}
+                    className="word"
+                    onClick={() => this.setState({ activeWord: activeWord === i ? null : i })}
+                    // onMouseLeave={() => this.setState({ activeWord: null })}
+                    // onMouseEnter={() => this.setState({ activeWord: i })}
+                  >
+                    {`${word}.`}
+                  </div>
+                  <WordAccordion
+                    key={`${word}-definition-container}`}
+                    className={`word-definition-container ${activeWord === i ? 'active' : 'hidden'}`}
+                    open={activeWord === i}
+                  >
+                    {definitions.map(definition => (
+                      <div key={definition} className="word-definition">
+                        {`${definition}.`}
+                      </div>
+                    ))}
+                  </WordAccordion>
                 </div>
               ))}
             </div>
