@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
 
+import './style.css';
+
 class Index extends React.Component {
   static async getInitialProps() {
     const types = ['adjective', 'noun', 'verb'];
@@ -37,65 +39,45 @@ class Index extends React.Component {
     console.log(this.state);
     const { words } = this.props;
     return (
-      <div>
-        <style jsx>
-          {`
-            ul {
-              display: flex;
-              font-family: "Courier";
-              align-items: center;
-              justify-content: center;
-              padding-top: 100px;
-            }
-
-            li {
-              list-style: none;
-              padding: 0px 10px 0px;
-              font-size: 40px;
-              font-weight: 600;
-            }
-
-            li:hover {
-              color:red;
-            }
-
-            .active {
-              display: flex;
-            }
-            .hidden {
-              display: none;
-            }
-            .word-definition-container {
-              padding-left: 200px;
-              padding-right: 200px;
-            }
-            .word-definition {
-              font-size: 18px;
-            }
-          `}
-        </style>
-        <ul>
-          {words.map(({ word }, i) => (
-            <li
-              key={word}
-              onMouseLeave={() => this.setState({ activeDefinition: null })}
-              onMouseEnter={() => this.setState({ activeDefinition: i })}
-            >
-              {`${word}.`}
-            </li>
-          ))}
-        </ul>
-        <ul className="word-definition-container">
-          {words.map(({ definition }, i) => (
-            <li
-              key={definition}
-              className={`word-definition ${this.state.activeDefinition === i ? 'active' : 'hidden'}`}
-            >
-              {`${definition}.`}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <React.Fragment>
+        <Head />
+        <div className="header">
+          <h1>prompt me</h1>
+          <h5>a writing prompt generator</h5>
+        </div>
+        <div>
+          <div className="word-container">
+            <div className="word-list">
+              {words.map(({ word }, i) => (
+                <div
+                  key={word}
+                  className="word"
+                  onMouseLeave={() => this.setState({ activeWord: null })}
+                  onMouseEnter={() => this.setState({ activeWord: i })}
+                >
+                  {`${word}.`}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="definition-container">
+            <div className="word-definition-container">
+              {words.map(({ word, definitions }, i) => (
+                <div
+                  key={`${word}-definition-container}`}
+                  className={`word-definition-container ${this.state.activeWord === i ? 'active' : 'hidden'}`}
+                >
+                  {definitions.map(definition => (
+                    <div key={definition} className="word-definition">
+                      {`${definition}.`}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

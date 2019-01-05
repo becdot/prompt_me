@@ -4,6 +4,7 @@
   "description": "A writing prompt app",
   "main": "index.js",
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
     "dotenv": "^6.2.0",
     "dotenv-webpack": "^1.5.7",
     "express": "^4.16.4",
