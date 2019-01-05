@@ -2,11 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
+import Responsive from 'react-responsive';
 
 import Head from '../components/head';
 import WordAccordion from '../components/word_accordion';
 
 import './style.css';
+
+const Desktop = props => <Responsive {...props} minWidth={992} />;
+const Tablet = props => <Responsive {...props} minWidth={768} maxWidth={991} />;
+const Mobile = props => <Responsive {...props} maxWidth={767} />;
 
 class Index extends React.Component {
   static async getInitialProps() {
@@ -33,9 +38,49 @@ class Index extends React.Component {
   //   return <Link href="/compose"><button>compose story</button></Link>;
   // }
 
+  static buildDefinition(definition) {
+    return (
+      <div key={definition} className="word-definition">
+        {`${definition}.`}
+      </div>
+    );
+  }
+
+  static buildDefinitions(word, definitions, shouldOpen) {
+    return (
+      <WordAccordion
+        key={`${word}-definition-container}`}
+        className="word-definition-container"
+        open={shouldOpen}
+      >
+        {definitions.map(Index.buildDefinition)}
+      </WordAccordion>
+    );
+  }
+
   constructor() {
     super();
     this.state = { activeWord: null };
+    this.buildWordContainer = this.buildWordContainer.bind(this);
+  }
+
+  buildWordContainer(wordObj, definitionsIncluded = true) {
+    const { word, definitions } = wordObj;
+    const { activeWord } = this.state;
+    return (
+      <div key={`${word}-word-container`} className="word-container">
+        <div
+          key={word}
+          className="word"
+          onClick={() => this.setState({ activeWord: word === activeWord ? null : word })}
+          // onMouseLeave={() => this.setState({ activeWord: null })}
+          // onMouseEnter={() => this.setState({ activeWord: i })}
+        >
+          {`${word}.`}
+        </div>
+        { definitionsIncluded ? Index.buildDefinitions(word, definitions, activeWord === word) : null }
+      </div>
+    );
   }
 
   render() {
@@ -51,32 +96,24 @@ class Index extends React.Component {
         <div>
           <div className="words-container">
             <div className="words-list">
-              {words.map(({ word, definitions }, i) => (
-                <div key={`${word}-word-container`} className="word-container">
-                  <div
-                    key={word}
-                    className="word"
-                    onClick={() => this.setState({ activeWord: activeWord === i ? null : i })}
-                    // onMouseLeave={() => this.setState({ activeWord: null })}
-                    // onMouseEnter={() => this.setState({ activeWord: i })}
-                  >
-                    {`${word}.`}
-                  </div>
-                  <WordAccordion
-                    key={`${word}-definition-container}`}
-                    className={`word-definition-container ${activeWord === i ? 'active' : 'hidden'}`}
-                    open={activeWord === i}
-                  >
-                    {definitions.map(definition => (
-                      <div key={definition} className="word-definition">
-                        {`${definition}.`}
-                      </div>
-                    ))}
-                  </WordAccordion>
-                </div>
-              ))}
+              <Mobile>
+                {words.map(wordObj => this.buildWordContainer(wordObj, true))}
+              </Mobile>
+              <Tablet>
+                {words.map(wordObj => this.buildWordContainer(wordObj, true))}
+              </Tablet>
+              <Desktop>
+                {words.map(wordObj => this.buildWordContainer(wordObj, false))}
+              </Desktop>
             </div>
           </div>
+          <Desktop>
+            <div className="definition-container">
+              {words.map(({ word, definitions }) => (
+                Index.buildDefinitions(word, definitions, word === activeWord)
+              ))}
+            </div>
+          </Desktop>
         </div>
       </React.Fragment>
     );
