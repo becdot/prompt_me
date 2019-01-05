@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
+// import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
+
+import Head from '../components/head';
 
 import './style.css';
 
@@ -20,19 +22,19 @@ class Index extends React.Component {
     };
     const response = await fetch(`${url}&partOfSpeech=${partOfSpeech}`, opts);
     const { word, results: definitions } = await response.json();
-    const { definition } = definitions.find(def => (
+    const relevantDefinitions = definitions.filter(def => (
       def.partOfSpeech === partOfSpeech
-    ));
-    return { word, definition };
+    )).map(def => def.definition);
+    return { word, definitions: relevantDefinitions };
   }
 
-  static composeNew() {
-    return <Link href="/compose"><button>compose story</button></Link>;
-  }
+  // static composeNew() {
+  //   return <Link href="/compose"><button>compose story</button></Link>;
+  // }
 
   constructor() {
     super();
-    this.state = { activeDefinition: null };
+    this.state = { activeWord: null };
   }
 
   render() {
@@ -84,7 +86,8 @@ class Index extends React.Component {
 
 Index.propTypes = {
   words: PropTypes.arrayOf(PropTypes.shape({
-    word: PropTypes.string, definition: PropTypes.string
+    word: PropTypes.string,
+    definitions: PropTypes.arrayOf(PropTypes.string),
   })),
 };
 
