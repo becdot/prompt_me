@@ -5,7 +5,8 @@ import fetch from 'isomorphic-unfetch';
 import Responsive from 'react-responsive';
 
 import Head from '../components/head';
-import WordAccordion from '../components/word_accordion';
+import Header from '../components/header';
+import Accordion from '../components/accordion';
 
 import './style.css';
 
@@ -48,13 +49,13 @@ class Index extends React.Component {
 
   static buildDefinitions(word, definitions, shouldOpen) {
     return (
-      <WordAccordion
+      <Accordion
         key={`${word}-definition-container}`}
         className="word-definition-container"
         open={shouldOpen}
       >
         {definitions.map(Index.buildDefinition)}
-      </WordAccordion>
+      </Accordion>
     );
   }
 
@@ -89,10 +90,7 @@ class Index extends React.Component {
     return (
       <React.Fragment>
         <Head />
-        <div className="header">
-          <h1>prompt me</h1>
-          <h5>a writing prompt generator</h5>
-        </div>
+        <Header />
         <div>
           <div className="words-container">
             <div className="words-list">

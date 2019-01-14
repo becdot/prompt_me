@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { SlideDown } from 'react-slidedown';
 import 'react-slidedown/lib/slidedown.css';
 
-export default function WordAccordion({ open, children }) {
+export default function Accordion({ open, children }) {
   return (
     <SlideDown className="wordaccordion">
       {open ? children : null}
@@ -12,12 +12,12 @@ export default function WordAccordion({ open, children }) {
   );
 }
 
-WordAccordion.propTypes = {
+Accordion.propTypes = {
   open: PropTypes.bool,
   children: PropTypes.arrayOf(PropTypes.node),
 };
 
-WordAccordion.defaultProps = {
+Accordion.defaultProps = {
   open: false,
   children: [],
 };
